@@ -11,13 +11,6 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    const ziglyph = b.dependency("ziglyph", .{
-        .optimize = optimize,
-        .target = target,
-    });
-
-    exe.root_module.addImport("ziglyph", ziglyph.module("ziglyph"));
-
     b.installArtifact(exe);
 
     const run_cmd = b.addRunArtifact(exe);
