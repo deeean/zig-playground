@@ -24,11 +24,8 @@ pub fn main() !void {
   var channel = mpsc.UnboundedChannel([]const u8).init(std.heap.page_allocator);
   defer channel.deinit();
 
-  const sender = try std.Thread.spawn(.{}, sender_fn, .{&channel});
-  const receiver = try std.Thread.spawn(.{}, receiver_fn, .{&channel});
-
-  defer sender.join();
-  defer receiver.join();
+  _ = try std.Thread.spawn(.{}, sender_fn, .{&channel});
+  _ = try std.Thread.spawn(.{}, receiver_fn, .{&channel});
 
   while (true) {
     std.debug.print("Main thread running...\n", .{});
